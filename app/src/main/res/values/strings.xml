@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MyContacts</string>
+
+    <string name="name">Shakeel haider</string>
+
+    <string name="image">Profile Picture</string>
+    <string name="fullname">Full Name</string>
+    <string name="phonenumber">Phone Number</string>
+    <string name="email">Email</string>
+    <string name="friend">Friend</string>
+    <string name="family">Family</string>
+    <string name="classmate">Class Mate</string>
+    <string name="submit_button">Submit</string>
+</resources>
