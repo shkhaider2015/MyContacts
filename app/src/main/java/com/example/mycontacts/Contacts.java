@@ -12,6 +12,8 @@ public class Contacts implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+
+
     @ColumnInfo(name = "fullname")
     private String fullName;
 
@@ -66,5 +68,8 @@ public class Contacts implements Serializable {
 
     public int getId() {
         return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 }
