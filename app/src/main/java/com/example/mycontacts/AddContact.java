@@ -1,42 +1,74 @@
 package com.example.mycontacts;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class AddContact extends AppCompatActivity {
+public class AddContact extends AppCompatActivity implements View.OnClickListener
+{
 
-    @BindView(R.id.activity_add_contact_image)
-    ImageView imageView;
+    private static final String TAG = "AddContact";
+    private static final int CHOOSE_IMAGE = 101;
 
-    @BindViews({R.id.activity_add_contact_fullname, R.id.activity_add_contact_phonenumber, R.id.activity_add_contact_email})
-    EditText mFullName, mPhoneNumber, mEmail;
+    private ImageView imageView;
 
-    @BindView(R.id.activity_add_contact_radio_group)
-    RadioGroup mRadioGroup;
+    private EditText mFullName;
+    private EditText mPhoneNumber;
+    private EditText mEmail;
 
-    @BindViews({R.id.activity_add_contact_friend, R.id.activity_add_contact_family, R.id.activity_add_contact_classmate})
-    RadioButton mFriend, mFamily, mClassMate;
 
-    @BindView(R.id.activity_add_contact_submit)
-    Button mSubmit;
+    private RadioGroup mRadioGroup;
+
+    private RadioButton mFriend;
+    private RadioButton mFamily;
+    private RadioButton mClassmate;
+
+    private Button mSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
-        ButterKnife.bind(this);
+        init();
+
+        mSubmit.setOnClickListener(this);
+        imageView.setOnClickListener(this);
     }
 
+    private void init()
+    {
+        imageView = findViewById(R.id.activity_add_contact_image);
+        mFullName = findViewById(R.id.activity_add_contact_fullname);
+        mPhoneNumber = findViewById(R.id.activity_add_contact_phonenumber);
+        mEmail = findViewById(R.id.activity_add_contact_email);
+        mRadioGroup = findViewById(R.id.activity_add_contact_radio_group);
+        mFriend = findViewById(R.id.activity_add_contact_friend);
+        mFamily = findViewById(R.id.activity_add_contact_family);
+        mClassmate = findViewById(R.id.activity_add_contact_classmate);
+        mSubmit = findViewById(R.id.activity_add_contact_submit);
+
+    }
     private void saveInfo()
     {
         Contacts contactsObject = new Contacts();
@@ -62,6 +94,8 @@ public class AddContact extends AppCompatActivity {
         contactsObject.setEmail(mEmail.getText().toString().trim());
         contactsObject.setCategory(getCategory());
 
+        check(contactsObject);
+
     }
 
     private String getCategory()
@@ -70,13 +104,85 @@ public class AddContact extends AppCompatActivity {
 
         int mSelectedId = mRadioGroup.getCheckedRadioButtonId();
 
-        if (mSelectedId == mClassMate.getId())
+        if (mSelectedId == mClassmate.getId())
             category = "Classmate";
         else if (mSelectedId == mFamily.getId())
             category = "Family";
-        else
+        else if (mSelectedId == mFriend.getId())
             category = "Friend";
+        else
+            category = "";
 
         return category;
+    }
+
+    private void check(Contacts contacts)
+    {
+        Log.d(TAG, "check: " + contacts.getFullName());
+        Log.d(TAG, "check: " + contacts.getEmail());
+        Log.d(TAG, "check: " + contacts.getPhoneNumber());
+        Log.d(TAG, "check: " + contacts.getCategory());
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId())
+        {
+            case R.id.activity_add_contact_submit:
+                saveInfo();
+                break;
+            case R.id.activity_add_contact_image:
+                showImageChooser();
+                break;
+        }
+    }
+
+    private void showImageChooser()
+    {
+        Intent imageIntent = new Intent();
+        imageIntent.setType("image/*");
+        imageIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(imageIntent, "SELECT PROFILE PICTURE"), CHOOSE_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
+        {
+            Bitmap bitmap = null;
+            try {
+                Log.d(TAG, "onActivityResult: data :: " + data);
+                Log.d(TAG, "onActivityResult: data.getData() :: " + data.getData());
+                Log.d(TAG, "onActivityResult: resultCode  :: " + resultCode);
+
+
+                if (Build.VERSION.SDK_INT < 28)
+                {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                }
+                else
+                {
+                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), data.getData());
+                    bitmap = ImageDecoder.decodeBitmap(source);
+                }
+
+
+            }catch (NullPointerException e)
+            {
+                Log.e(TAG, "onActivityResult: ERROR ", e);
+            }catch (FileNotFoundException e)
+            {
+                Log.e(TAG, "onActivityResult: ", e);
+            }catch (IOException e)
+            {
+                Log.e(TAG, "onActivityResult: ", e);
+            }
+
+            imageView.setImageBitmap(bitmap);
+
+        }
     }
 }
