@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddContact">
+    tools:context=".AddContact"
+    android:background="@drawable/background">
 
 
 
@@ -108,7 +109,8 @@
         android:layout_marginBottom="20dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
-        android:text="@string/submit_button"/>
+        android:text="@string/submit_button"
+        android:background="@drawable/bgbtn"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

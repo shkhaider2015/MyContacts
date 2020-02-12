@@ -125,7 +125,8 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
 
         switch (v.getId())
         {
@@ -147,7 +148,8 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
@@ -172,13 +174,13 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
             }catch (NullPointerException e)
             {
-                Log.e(TAG, "onActivityResult: ERROR ", e);
+                Log.e(TAG, "onActivityResult: NullPointerException  ", e);
             }catch (FileNotFoundException e)
             {
-                Log.e(TAG, "onActivityResult: ", e);
+                Log.e(TAG, "onActivityResult: FileNotFoundException ", e);
             }catch (IOException e)
             {
-                Log.e(TAG, "onActivityResult: ", e);
+                Log.e(TAG, "onActivityResult: IOException ", e);
             }
 
             imageView.setImageBitmap(bitmap);
