@@ -6,14 +6,21 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
+    <ImageView
+        android:id="@+id/recyclerview_contacts_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="5dp"/>
+
     <TextView
         android:id="@+id/recyclerview_contacts_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="@string/name"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:padding="10dp"
         />
 
