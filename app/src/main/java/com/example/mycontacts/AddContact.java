@@ -1,11 +1,14 @@
 package com.example.mycontacts;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -45,6 +48,8 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
     private RadioButton mClassmate;
 
     private Button mSubmit;
+
+    private Uri selectedPic = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,10 +97,21 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
         contactsObject.setFullName(fullname);
         contactsObject.setPhoneNumber(phonenumber);
         contactsObject.setEmail(mEmail.getText().toString().trim());
+        Log.d(TAG, "saveInfo: Email :: " + mEmail.getText().toString().trim());
         contactsObject.setCategory(getCategory());
+        if (selectedPic != null)
+        {
+            contactsObject.setImagePath(selectedPic.toString());
+        }
+
 
         check(contactsObject);
 
+    }
+
+    private void loadToDatabase(Contacts contacts)
+    {
+        
     }
 
     private String getCategory()
@@ -154,6 +170,7 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
         if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
         {
+            selectedPic = data.getData();
             Bitmap bitmap = null;
             try {
                 Log.d(TAG, "onActivityResult: data :: " + data);
@@ -161,13 +178,14 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
                 Log.d(TAG, "onActivityResult: resultCode  :: " + resultCode);
 
 
+
                 if (Build.VERSION.SDK_INT < 28)
                 {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPic);
                 }
                 else
                 {
-                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), data.getData());
+                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), selectedPic);
                     bitmap = ImageDecoder.decodeBitmap(source);
                 }
 
@@ -187,4 +205,6 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
         }
     }
+
+
 }

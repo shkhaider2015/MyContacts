@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Contacts implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    public int id;
 
 
 
@@ -26,6 +26,17 @@ public class Contacts implements Serializable {
 
     @ColumnInfo(name = "category")
     private String category;
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    @ColumnInfo(name = "image")
+    private String imagePath;
 
 
     public String getFullName() {
@@ -66,10 +77,5 @@ public class Contacts implements Serializable {
         this.category = category;
     }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+
 }
