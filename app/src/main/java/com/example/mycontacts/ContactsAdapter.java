@@ -1,6 +1,12 @@
 package com.example.mycontacts;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +16,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
 
+    private static final String TAG = "ContactsAdapter";
 
     private Context mCTX;
     private List<Contacts> contactsList;
@@ -40,6 +51,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         Contacts contacts = contactsList.get(position);
 
         holder.textView.setText(contacts.getFullName());
+
+
+        Uri uri = Uri.parse(contacts.getImagePath());
+        Log.d(TAG, "onBindViewHolder: uri :: " + uri);
+        Log.d(TAG, "onBindViewHolder: uri.getPath() :: " + uri.getPath());
+
+        
+
+
+
 
     }
 

@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -80,6 +81,9 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
         String fullname = mFullName.getText().toString().trim();
         String phonenumber = mPhoneNumber.getText().toString().trim();
+        String email = mEmail.getText().toString().trim();
+        String imagePath = selectedPic.toString();
+        String category = getCategory();
 
         if (fullname.isEmpty())
         {
@@ -94,25 +98,46 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
             return;
         }
 
-        contactsObject.setFullName(fullname);
-        contactsObject.setPhoneNumber(phonenumber);
-        contactsObject.setEmail(mEmail.getText().toString().trim());
         Log.d(TAG, "saveInfo: Email :: " + mEmail.getText().toString().trim());
-        contactsObject.setCategory(getCategory());
-        if (selectedPic != null)
+
+
+
+
+        class SaveContacts extends AsyncTask<Void, Void, Void>
         {
-            contactsObject.setImagePath(selectedPic.toString());
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                Contacts contacts = new Contacts();
+
+                contacts.setImagePath(imagePath);
+                contacts.setFullName(fullname);
+                contacts.setPhoneNumber(phonenumber);
+                contacts.setEmail(email);
+                contacts.setCategory(category);
+
+                DatabaseClint
+                        .getInstance(getApplicationContext())
+                        .getAppDatabase()
+                        .contactsDao()
+                        .insert(contacts);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
         }
 
-
-        check(contactsObject);
+        SaveContacts saveContacts = new SaveContacts();
+        saveContacts.execute();
 
     }
 
-    private void loadToDatabase(Contacts contacts)
-    {
-        
-    }
 
     private String getCategory()
     {

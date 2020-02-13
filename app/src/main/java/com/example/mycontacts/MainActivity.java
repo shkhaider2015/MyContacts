@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         init();
 
         mAdd.setOnClickListener(this::onClick);
+        getContacts();
 
     }
     private void init()
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(MainActivity.this, AddContact.class);
         startActivity(intent);
 
-        getContacts();
     }
 
     private void getContacts()
@@ -65,7 +65,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected void onPostExecute(List<Contacts> contacts) {
                 super.onPostExecute(contacts);
+                ContactsAdapter contactsAdapter = new ContactsAdapter(MainActivity.this, contacts);
+                mRecyclerView.setAdapter(contactsAdapter);
             }
         }
+
+        GetContacts getContacts = new GetContacts();
+        getContacts.execute();
     }
 }
