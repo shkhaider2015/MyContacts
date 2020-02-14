@@ -50,7 +50,7 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
     private Button mSubmit;
 
-    private Uri selectedPic = null;
+    private String selectedPic = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +195,7 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
         if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
         {
-            selectedPic = data.getData();
+             Uri mSelectedPic = data.getData();
             Bitmap bitmap = null;
             try {
                 Log.d(TAG, "onActivityResult: data :: " + data);
@@ -206,11 +206,11 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
                 if (Build.VERSION.SDK_INT < 28)
                 {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPic);
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mSelectedPic);
                 }
                 else
                 {
-                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), selectedPic);
+                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), mSelectedPic);
                     bitmap = ImageDecoder.decodeBitmap(source);
                 }
 
@@ -227,7 +227,21 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
             }
 
             imageView.setImageBitmap(bitmap);
+            selectedPic = getRealPathFromURI(mSelectedPic);
 
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentURI)
+    {
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            return contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return cursor.getString(idx);
         }
     }
 

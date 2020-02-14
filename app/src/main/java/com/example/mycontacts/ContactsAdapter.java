@@ -54,10 +54,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
 
         Uri uri = Uri.parse(contacts.getImagePath());
+        Log.d(TAG, "onBindViewHolder: Uri :: " + uri);
         Log.d(TAG, "onBindViewHolder: uri :: " + uri);
         Log.d(TAG, "onBindViewHolder: uri.getPath() :: " + uri.getPath());
 
-        
+
+        Picasso
+                .get()
+                .load(new File(contacts.getImagePath()))
+                .resize(70, 70)
+                .centerCrop()
+                .placeholder(R.drawable.ic_profile)
+                .into(holder.imageView);
 
 
 
