@@ -1,6 +1,7 @@
 package com.example.mycontacts;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
@@ -54,6 +55,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
 
         Uri uri = Uri.parse(contacts.getImagePath());
+        File file = new File(uri.toString());
         Log.d(TAG, "onBindViewHolder: Uri :: " + uri);
         Log.d(TAG, "onBindViewHolder: uri :: " + uri);
         Log.d(TAG, "onBindViewHolder: uri.getPath() :: " + uri.getPath());
@@ -61,8 +63,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
         Picasso
                 .get()
-                .load(new File(contacts.getImagePath()))
-                .resize(70, 70)
+                .load(file)
+                .resize(60, 60)
                 .centerCrop()
                 .placeholder(R.drawable.ic_profile)
                 .into(holder.imageView);
@@ -96,4 +98,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
         }
     }
+
+    
+
+
 }

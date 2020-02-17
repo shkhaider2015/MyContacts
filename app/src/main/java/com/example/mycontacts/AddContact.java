@@ -21,8 +21,10 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -50,10 +52,12 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
     private Button mSubmit;
 
-    private String selectedPic = null;
+    private Uri selectedPic = null;
+    private byte[] bytes = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
         init();
@@ -195,7 +199,8 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
         if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
         {
-             Uri mSelectedPic = data.getData();
+            InputStream inputStream = null;
+             selectedPic = data.getData();
             Bitmap bitmap = null;
             try {
                 Log.d(TAG, "onActivityResult: data :: " + data);
@@ -206,13 +211,17 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
                 if (Build.VERSION.SDK_INT < 28)
                 {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mSelectedPic);
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPic);
                 }
                 else
                 {
-                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), mSelectedPic);
+                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), selectedPic);
                     bitmap = ImageDecoder.decodeBitmap(source);
                 }
+
+                inputStream = getContentResolver().openInputStream(selectedPic);
+                if (inputStream != null)
+                    bytes = getBytes(inputStream);
 
 
             }catch (NullPointerException e)
@@ -227,23 +236,27 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
             }
 
             imageView.setImageBitmap(bitmap);
-            selectedPic = getRealPathFromURI(mSelectedPic);
+
+
 
         }
     }
 
-    private String getRealPathFromURI(Uri contentURI)
-    {
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            return contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
 
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            return cursor.getString(idx);
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
         }
+        return byteBuffer.toByteArray();
     }
+
+
+
+
 
 
 }
