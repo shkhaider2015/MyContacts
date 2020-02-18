@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -98,12 +102,19 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         public void onClick(View v)
         {
             Contacts contacts = contactsList.get(getAdapterPosition());
+            AppCompatActivity mainActivity = (AppCompatActivity) v.getContext();
+            DisplayPerson displayPerson = new DisplayPerson();
 
-            Intent intent = new Intent(mCTX, DisplayPerson.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("contact", contacts);
+            displayPerson.setArguments(bundle);
 
-            intent.putExtra("obj", contacts);
-
-            mCTX.startActivity(intent);
+            mainActivity
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, displayPerson)
+                    .addToBackStack(null)
+                    .commit();
 
         }
     }
