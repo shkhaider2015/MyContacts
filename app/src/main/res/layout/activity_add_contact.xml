@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        android:src="@drawable/ic_profile" />
 
     <EditText
         android:id="@+id/activity_add_contact_fullname"
@@ -80,7 +80,8 @@
             android:id="@+id/activity_add_contact_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/friend" />
+            android:text="@string/friend"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/activity_add_contact_family"

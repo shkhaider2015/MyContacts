@@ -27,16 +27,16 @@ public class Contacts implements Serializable {
     @ColumnInfo(name = "category")
     private String category;
 
-    public String getImagePath() {
+    public byte[] getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(String imagePath) {
+    public void setImagePath(byte[] imagePath) {
         this.imagePath = imagePath;
     }
 
     @ColumnInfo(name = "image")
-    private String imagePath;
+    private byte[] imagePath;
 
 
     public String getFullName() {

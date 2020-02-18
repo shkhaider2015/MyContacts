@@ -1,6 +1,7 @@
 package com.example.mycontacts;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,24 +52,21 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public void onBindViewHolder(@NonNull ContactsViewHolder holder, int position)
     {
         Contacts contacts = contactsList.get(position);
+        byte[] outputData = null;
 
         holder.textView.setText(contacts.getFullName());
 
 
-        Uri uri = Uri.parse(contacts.getImagePath());
-        File file = new File(uri.toString());
-        Log.d(TAG, "onBindViewHolder: Uri :: " + uri);
-        Log.d(TAG, "onBindViewHolder: uri :: " + uri);
-        Log.d(TAG, "onBindViewHolder: uri.getPath() :: " + uri.getPath());
+        outputData = contacts.getImagePath();
+
+        if (outputData != null)
+        {
+            holder.imageView.setImageBitmap(ImageUtility.getImage(outputData));
+        }
 
 
-        Picasso
-                .get()
-                .load(file)
-                .resize(60, 60)
-                .centerCrop()
-                .placeholder(R.drawable.ic_profile)
-                .into(holder.imageView);
+
+
 
 
 
@@ -83,11 +82,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     {
         ImageView imageView;
         TextView textView;
+        LinearLayout mLinearLayout;
 
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.recyclerview_contacts_image);
             textView = itemView.findViewById(R.id.recyclerview_contacts_name);
+            mLinearLayout = itemView.findViewById(R.id.recyclerview_contacts_linear_layout);
+
 
             itemView.setOnClickListener(this);
         }
@@ -95,6 +97,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         @Override
         public void onClick(View v)
         {
+            Contacts contacts = contactsList.get(getAdapterPosition());
+
+            Intent intent = new Intent(mCTX, DisplayPerson.class);
+
+            intent.putExtra("obj", contacts);
+
+            mCTX.startActivity(intent);
 
         }
     }

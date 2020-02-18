@@ -86,7 +86,7 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
         String fullname = mFullName.getText().toString().trim();
         String phonenumber = mPhoneNumber.getText().toString().trim();
         String email = mEmail.getText().toString().trim();
-        String imagePath = selectedPic.toString();
+//        String imagePath = selectedPic.toString();
         String category = getCategory();
 
         if (fullname.isEmpty())
@@ -102,6 +102,7 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
             return;
         }
 
+
         Log.d(TAG, "saveInfo: Email :: " + mEmail.getText().toString().trim());
 
 
@@ -112,10 +113,23 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
             @Override
             protected Void doInBackground(Void... voids) {
+                byte[] inputData = null;
+                if (selectedPic != null)
+                {
+                    try {
+                        InputStream iStream = getContentResolver().openInputStream(selectedPic);
+                        inputData = ImageUtility.getBytes(iStream);
+                    }catch (IOException e)
+                    {
+                        Log.e(TAG, "saveInfo: ", e);
+                        Log.d(TAG, "doInBackground: Save Image ERROR ");
+                    }
+                }
 
                 Contacts contacts = new Contacts();
 
-                contacts.setImagePath(imagePath);
+//                contacts.setImagePath(imagePath);
+                contacts.setImagePath(inputData);
                 contacts.setFullName(fullname);
                 contacts.setPhoneNumber(phonenumber);
                 contacts.setEmail(email);
@@ -199,60 +213,68 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
         if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
         {
-            InputStream inputStream = null;
+//            InputStream inputStream = null;
              selectedPic = data.getData();
-            Bitmap bitmap = null;
-            try {
-                Log.d(TAG, "onActivityResult: data :: " + data);
-                Log.d(TAG, "onActivityResult: data.getData() :: " + data.getData());
-                Log.d(TAG, "onActivityResult: resultCode  :: " + resultCode);
+//            Bitmap bitmap = null;
+//            try {
+//                Log.d(TAG, "onActivityResult: data :: " + data);
+//                Log.d(TAG, "onActivityResult: data.getData() :: " + data.getData());
+//                Log.d(TAG, "onActivityResult: resultCode  :: " + resultCode);
+//
+//
+//
+//                if (Build.VERSION.SDK_INT < 28)
+//                {
+//                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPic);
+//                }
+//                else
+//                {
+//                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), selectedPic);
+//                    bitmap = ImageDecoder.decodeBitmap(source);
+//                }
+//
+//                inputStream = getContentResolver().openInputStream(selectedPic);
+//                if (inputStream != null)
+//                    bytes = getBytes(inputStream);
+//
+//
+//            }catch (NullPointerException e)
+//            {
+//                Log.e(TAG, "onActivityResult: NullPointerException  ", e);
+//            }catch (FileNotFoundException e)
+//            {
+//                Log.e(TAG, "onActivityResult: FileNotFoundException ", e);
+//            }catch (IOException e)
+//            {
+//                Log.e(TAG, "onActivityResult: IOException ", e);
+//            }
 
+//            imageView.setImageBitmap(bitmap);
+            if (selectedPic != null)
+                imageView.setImageURI(selectedPic);
 
-
-                if (Build.VERSION.SDK_INT < 28)
-                {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPic);
-                }
-                else
-                {
-                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), selectedPic);
-                    bitmap = ImageDecoder.decodeBitmap(source);
-                }
-
-                inputStream = getContentResolver().openInputStream(selectedPic);
-                if (inputStream != null)
-                    bytes = getBytes(inputStream);
-
-
-            }catch (NullPointerException e)
-            {
-                Log.e(TAG, "onActivityResult: NullPointerException  ", e);
-            }catch (FileNotFoundException e)
-            {
-                Log.e(TAG, "onActivityResult: FileNotFoundException ", e);
-            }catch (IOException e)
-            {
-                Log.e(TAG, "onActivityResult: IOException ", e);
-            }
-
-            imageView.setImageBitmap(bitmap);
 
 
 
         }
-    }
+        else
+        {
 
-    public byte[] getBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-
-        int len = 0;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
         }
-        return byteBuffer.toByteArray();
     }
+
+//    public byte[] getBytes(InputStream inputStream) throws IOException {
+//        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+//        int bufferSize = 1024;
+//        byte[] buffer = new byte[bufferSize];
+//
+//        int len = 0;
+//        while ((len = inputStream.read(buffer)) != -1) {
+//            byteBuffer.write(buffer, 0, len);
+//        }
+//        return byteBuffer.toByteArray();
+//    }
+
 
 
 

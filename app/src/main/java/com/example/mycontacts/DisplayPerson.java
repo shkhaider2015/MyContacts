@@ -18,6 +18,8 @@ public class DisplayPerson extends Fragment
         View view = inflater.inflate(R.layout.display_person, container, false);
         init(view);
 
+        
+
 
         return view;
     }
