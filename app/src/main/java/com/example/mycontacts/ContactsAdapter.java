@@ -68,13 +68,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             holder.imageView.setImageBitmap(ImageUtility.getImage(outputData));
         }
 
-
-
-
-
-
-
-
     }
 
     @Override
@@ -102,19 +95,12 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         public void onClick(View v)
         {
             Contacts contacts = contactsList.get(getAdapterPosition());
-            AppCompatActivity mainActivity = (AppCompatActivity) v.getContext();
-            DisplayPerson displayPerson = new DisplayPerson();
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("contact", contacts);
-            displayPerson.setArguments(bundle);
+            Intent intent = new Intent(mCTX, DisplayPerson.class);
+            intent.putExtra("contact", contacts);
 
-            mainActivity
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, displayPerson)
-                    .addToBackStack(null)
-                    .commit();
+            mCTX.startActivity(intent);
+
 
         }
     }
