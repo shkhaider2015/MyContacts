@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -68,6 +70,37 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             holder.imageView.setImageBitmap(ImageUtility.getImage(outputData));
         }
 
+        holder.menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(mCTX, holder.menuIcon);
+                popup.inflate(R.menu.recyclerview_menu);
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId())
+                        {
+                            case R.id.menu_item_update:
+                                //updarte here
+                                break;
+                            case R.id.menu_item_delete:
+                                // delete
+                                break;
+                        }
+
+                        return false;
+                    }
+
+
+                });
+
+                popup.show();
+            }
+        });
+
+
     }
 
     @Override
@@ -75,34 +108,38 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         return contactsList.size();
     }
 
-    class ContactsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    class ContactsViewHolder extends RecyclerView.ViewHolder
     {
-        ImageView imageView;
+        ImageView imageView, menuIcon;
         TextView textView;
         LinearLayout mLinearLayout;
 
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.recyclerview_contacts_image);
+            menuIcon = itemView.findViewById(R.id.recyclerview_contacts_menu);
             textView = itemView.findViewById(R.id.recyclerview_contacts_name);
             mLinearLayout = itemView.findViewById(R.id.recyclerview_contacts_linear_layout);
 
 
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Contacts contacts = contactsList.get(getAdapterPosition());
+
+                    Intent intent = new Intent(mCTX, DisplayPerson.class);
+                    intent.putExtra("contact", contacts);
+
+                    mCTX.startActivity(intent);
+                }
+            });
+
+
         }
 
-        @Override
-        public void onClick(View v)
-        {
-            Contacts contacts = contactsList.get(getAdapterPosition());
 
-            Intent intent = new Intent(mCTX, DisplayPerson.class);
-            intent.putExtra("contact", contacts);
-
-            mCTX.startActivity(intent);
-
-
-        }
     }
 
     
