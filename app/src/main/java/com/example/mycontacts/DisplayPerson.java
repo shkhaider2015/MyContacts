@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class DisplayPerson extends AppCompatActivity implements View.OnClickListener {
+public class DisplayPerson extends AppCompatActivity {
 
     private ImageView mImageView;
-    private Button mCall, mUpdate;
+    private Button mCall;
     private TextView mName, mNumber, mEmail, mcategory;
     private Contacts contact;
 
@@ -25,8 +25,13 @@ public class DisplayPerson extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_display_person);
         init();
         contact = (Contacts) getIntent().getSerializableExtra("contact");
-        mCall.setOnClickListener(this::onClick);
-        mUpdate.setOnClickListener(this::onClick);
+
+        mCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
 
@@ -41,25 +46,6 @@ public class DisplayPerson extends AppCompatActivity implements View.OnClickList
         mNumber = findViewById(R.id.display_number);
         mEmail = findViewById(R.id.display_email);
         mcategory = findViewById(R.id.display_category);
-        mUpdate = findViewById(R.id.display_update);
-
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
-            case R.id.display_call:
-                // call code
-                break;
-            case R.id.display_update:
-
-                Intent intent = new Intent(DisplayPerson.this, UpdatePerson.class);
-                intent.putExtra("update_contact", contact);
-                this.startActivity(intent);
-                break;
-        }
 
     }
 

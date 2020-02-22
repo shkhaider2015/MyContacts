@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -84,9 +85,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                         {
                             case R.id.menu_item_update:
                                 //updarte here
+                                Intent intent = new Intent(mCTX, UpdatePerson.class);
+                                intent.putExtra("update_contact", contacts);
+                                mCTX.startActivity(intent);
                                 break;
                             case R.id.menu_item_delete:
                                 // delete
+                                deleteItem(position);
                                 break;
                         }
 
@@ -141,6 +146,39 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
 
     }
+
+    private void deleteItem(int position)
+    {
+
+
+        class DeleteItem extends AsyncTask<Void, Void, Void>
+        {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                DatabaseClint
+                        .getInstance(mCTX)
+                        .getAppDatabase()
+                        .contactsDao()
+                        .delete(contactsList.get(position));
+
+                contactsList.remove(position);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, contactsList.size());
+            }
+        }
+
+        DeleteItem deleteItem = new DeleteItem();
+        deleteItem.execute();
+    }
+
 
     
 

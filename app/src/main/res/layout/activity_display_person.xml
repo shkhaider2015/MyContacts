@@ -106,21 +106,6 @@
 
     </TableLayout>
 
-    
-
-    <Button
-        android:id="@+id/display_update"
-        android:text="Update"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/display_call"
-        android:layout_marginBottom="60dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/bgbtnupdate"/>
-
 
     <Button
         android:id="@+id/display_call"

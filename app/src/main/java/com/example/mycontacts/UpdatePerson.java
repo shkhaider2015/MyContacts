@@ -52,6 +52,7 @@ public class UpdatePerson extends AppCompatActivity {
         init();
 
         final Contacts contact = (Contacts) getIntent().getSerializableExtra("update_contact");
+        Log.d(TAG, "onCreate: contact  details : " + contact.getFullName() + " Image : " + contact.getImagePath());
         loadInfo(contact);
 
         imageView.setOnClickListener(new View.OnClickListener()
