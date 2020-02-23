@@ -2,8 +2,12 @@ package com.example.mycontacts;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -196,20 +200,28 @@ public class UpdatePerson extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri selectedPic = null;
-        if (requestCode == updateImageChooser && resultCode == RESULT_OK && data != null && data.getData() != null)
-        {
-            selectedPic = data.getData();
+            Uri selectedPic = null;
 
-            imageView.setImageURI(selectedPic);
-
-            try {
-                imageBytes = ImageUtility.getBytes(getContentResolver().openInputStream(selectedPic));
-            }catch (IOException e)
+            if (requestCode == updateImageChooser && resultCode == RESULT_OK && data != null && data.getData() != null)
             {
-                Log.e(TAG, "onActivityResult: ", e);
+                selectedPic = data.getData();
+
+                imageView.setImageURI(selectedPic);
+
+                try {
+                    imageBytes = ImageUtility.getBytes(getContentResolver().openInputStream(selectedPic));
+                }catch (IOException e)
+                {
+                    Log.e(TAG, "onActivityResult: ", e);
+                }
             }
-        }
+            else
+            {
+                Log.d(TAG, "onActivityResult: else run ");
+                return;
+            }
+
+
     }
 
 

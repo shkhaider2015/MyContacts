@@ -220,9 +220,7 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (ActivityCompat.checkSelfPermission(AddContact.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-        {
-            if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
+            if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null)
             {
 
                 selectedPic = data.getData();
@@ -232,15 +230,9 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
             }
             else
             {
-                Log.d(TAG, "AddContact Activity onActivityResult: Inner else run :: -->");
+                Log.d(TAG, "AddContact Activity onActivityResult: else run :: -->");
                 return;
             }
-        }
-        else
-        {
-            Log.d(TAG, "AddContact Activity onActivityResult: Outer else run :: -->");
-            return;
-        }
 
     }
 
