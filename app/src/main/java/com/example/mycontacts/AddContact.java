@@ -3,8 +3,11 @@ package com.example.mycontacts;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -98,6 +101,12 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
         if (phonenumber.isEmpty())
         {
             mPhoneNumber.setError("Phone Number Required");
+            mPhoneNumber.requestFocus();
+            return;
+        }
+        if (phonenumber.length() != 11)
+        {
+            mPhoneNumber.setError("Phone Number Is Not Correct");
             mPhoneNumber.requestFocus();
             return;
         }
@@ -211,69 +220,30 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
+        if (ActivityCompat.checkSelfPermission(AddContact.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         {
-//            InputStream inputStream = null;
-             selectedPic = data.getData();
-//            Bitmap bitmap = null;
-//            try {
-//                Log.d(TAG, "onActivityResult: data :: " + data);
-//                Log.d(TAG, "onActivityResult: data.getData() :: " + data.getData());
-//                Log.d(TAG, "onActivityResult: resultCode  :: " + resultCode);
-//
-//
-//
-//                if (Build.VERSION.SDK_INT < 28)
-//                {
-//                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedPic);
-//                }
-//                else
-//                {
-//                    ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), selectedPic);
-//                    bitmap = ImageDecoder.decodeBitmap(source);
-//                }
-//
-//                inputStream = getContentResolver().openInputStream(selectedPic);
-//                if (inputStream != null)
-//                    bytes = getBytes(inputStream);
-//
-//
-//            }catch (NullPointerException e)
-//            {
-//                Log.e(TAG, "onActivityResult: NullPointerException  ", e);
-//            }catch (FileNotFoundException e)
-//            {
-//                Log.e(TAG, "onActivityResult: FileNotFoundException ", e);
-//            }catch (IOException e)
-//            {
-//                Log.e(TAG, "onActivityResult: IOException ", e);
-//            }
+            if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK & data != null & data.getData() != null)
+            {
 
-//            imageView.setImageBitmap(bitmap);
-            if (selectedPic != null)
-                imageView.setImageURI(selectedPic);
+                selectedPic = data.getData();
+                if (selectedPic != null)
+                    imageView.setImageURI(selectedPic);
 
-
-
-
+            }
+            else
+            {
+                Log.d(TAG, "AddContact Activity onActivityResult: Inner else run :: -->");
+                return;
+            }
         }
         else
         {
-
+            Log.d(TAG, "AddContact Activity onActivityResult: Outer else run :: -->");
+            return;
         }
+
     }
 
-//    public byte[] getBytes(InputStream inputStream) throws IOException {
-//        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-//        int bufferSize = 1024;
-//        byte[] buffer = new byte[bufferSize];
-//
-//        int len = 0;
-//        while ((len = inputStream.read(buffer)) != -1) {
-//            byteBuffer.write(buffer, 0, len);
-//        }
-//        return byteBuffer.toByteArray();
-//    }
 
 
 
