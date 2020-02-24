@@ -5,9 +5,11 @@
     <color name="colorAccent">#20EEA4</color>
 
 
+    <color name="default_theme_color">#20EEA4</color>
 
+    <color name="background_gradient_ec">#FCEDFFFF</color>
+    <color name="background_gradient_sc">#7EF9FFF9</color>
 
-    <color name="backup">#3FF80C</color>
     <color name="shadow">#EBCCF3</color>
     <color name="image_shadow">#9B9999</color>
     <color name="header">#20EEA4</color>

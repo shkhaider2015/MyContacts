@@ -12,7 +12,7 @@
         android:id="@+id/display_imageView"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        app:civ_border_color="@color/header"
+        app:civ_border_color="@color/default_theme_color"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
                 android:id="@+id/display_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Shakeel Haider"
+                android:text="@string/fullname"
                 android:textSize="18sp"
                 android:layout_marginStart="20dp"/>
 
@@ -58,7 +58,7 @@
                 android:id="@+id/display_number"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="03460027852"
+                android:text="@string/phonenumber"
                 android:textSize="18sp"
                 android:layout_marginStart="20dp"/>
 
@@ -76,7 +76,7 @@
                 android:id="@+id/display_email"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="shkhaider2015@gmail.com"
+                android:text="@string/email"
                 android:maxLines="2"
                 android:textSize="18sp"
                 android:layout_marginStart="20dp"/>
@@ -96,7 +96,7 @@
                 android:id="@+id/display_category"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Family"
+                android:text="@string/family"
                 android:textSize="18sp"
                 android:layout_marginStart="20dp"/>
 
