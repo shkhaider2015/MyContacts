@@ -14,6 +14,15 @@ public interface ContactsDao {
     @Query("SELECT * FROM contacts")
     List<Contacts> getAll();
 
+    @Query("SELECT * FROM contacts where category='Friend' ")
+    List<Contacts> getFriends();
+
+    @Query("SELECT * FROM contacts where category='Family' ")
+    List<Contacts> getFamily();
+
+    @Query("SELECT * FROM contacts where category='Classmate' ")
+    List<Contacts> getClassmate();
+
     @Insert
     void insert(Contacts contact);
 
