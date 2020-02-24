@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/background">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -26,7 +27,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
-        android:text="Add"/>
+        android:text="Add"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/addbtnbg"/>
 
 
     <FrameLayout
