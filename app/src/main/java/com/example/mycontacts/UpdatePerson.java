@@ -121,6 +121,13 @@ public class UpdatePerson extends AppCompatActivity {
         if (contacts.getCategory().equalsIgnoreCase("Classmate"))
             mClassmate.setChecked(true);
 
+        if (contacts.getCategory().equalsIgnoreCase("Family"))
+            mFamily.setChecked(true);
+        else if (contacts.getCategory().equalsIgnoreCase("Classmate"))
+            mClassmate.setChecked(true);
+        else
+            mFriend.setChecked(true);
+
     }
 
     private void updateInfo(Contacts contacts)

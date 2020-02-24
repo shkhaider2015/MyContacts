@@ -29,7 +29,7 @@ public class DisplayPerson extends AppCompatActivity {
 
     private View view;
 
-    private ImageView mImageView;
+    private ImageView mImageView, mCatImage;
     private Button mCall;
     private TextView mName, mNumber, mEmail, mcategory;
     private Contacts contact;
@@ -63,6 +63,7 @@ public class DisplayPerson extends AppCompatActivity {
         mNumber = findViewById(R.id.display_number);
         mEmail = findViewById(R.id.display_email);
         mcategory = findViewById(R.id.display_category);
+        mCatImage = findViewById(R.id.display_category_image);
 
     }
 
@@ -85,6 +86,7 @@ public class DisplayPerson extends AppCompatActivity {
         mEmail.setText(contacts.getEmail());
         mNumber.setText(contacts.getPhoneNumber());
         mcategory.setText(contacts.getCategory());
+        setmCatImage(contacts.getCategory());
 
     }
 
@@ -171,6 +173,18 @@ public class DisplayPerson extends AppCompatActivity {
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
+
+    }
+
+    private void setmCatImage(String cat)
+    {
+        if (cat.equalsIgnoreCase("Family"))
+            mCatImage.setImageResource(R.drawable.ic_col_family);
+        else if (cat.equalsIgnoreCase("Classmate"))
+            mCatImage.setImageResource(R.drawable.ic_col_classmate);
+        else
+            mCatImage.setImageResource(R.drawable.ic_col_friend);
+
 
     }
 }
