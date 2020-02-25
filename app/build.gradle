@@ -45,6 +45,9 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     testImplementation "android.arch.persistence.room:testing:1.1.1"
 
+    //design
+    implementation 'com.google.android.material:material:1.0.0'
+
     //Recycler View
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
 

@@ -3,6 +3,7 @@
 
     <string name="name">Shakeel haider</string>
 
+    <string name="add">Add</string>
     <string name="image">Profile Picture</string>
     <string name="fullname">Full Name</string>
     <string name="phonenumber">Phone Number</string>
