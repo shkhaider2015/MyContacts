@@ -114,6 +114,7 @@ public class DisplayPerson extends AppCompatActivity {
     private boolean checkPermission()
     {
         int call = ContextCompat.checkSelfPermission(DisplayPerson.this, Manifest.permission.CALL_PHONE);
+        Log.d(TAG, "checkPermission: ----------------||||||||||||||||||||_____________>>> " + Manifest.permission.CALL_PHONE);
         return call == PackageManager.PERMISSION_GRANTED;
     }
 

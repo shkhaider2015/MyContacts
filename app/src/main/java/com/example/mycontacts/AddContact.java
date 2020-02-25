@@ -1,9 +1,11 @@
 package com.example.mycontacts;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -39,6 +42,7 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
     private static final String TAG = "AddContact";
     private static final int CHOOSE_IMAGE = 101;
+    private static final int PERMISSION_REQUEST_CODE = 102;
 
     private ImageView imageView;
 
@@ -203,9 +207,9 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.activity_add_contact_image:
                 showImageChooser();
-                break;
         }
     }
+
 
     private void showImageChooser()
     {
@@ -237,10 +241,44 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
     }
 
 
+    private boolean checkPermission()
+    {
+       int RES = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+       int WES = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+       return RES == PackageManager.PERMISSION_GRANTED && WES == PackageManager.PERMISSION_GRANTED;
+    }
 
+    private void requestPermission()
+    {
+        ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE }, PERMISSION_REQUEST_CODE );
 
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        if (requestCode == PERMISSION_REQUEST_CODE)
+        {
+            if (grantResults.length > 0)
+            {
+                boolean RES_accepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                boolean WES_accepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
+                if (RES_accepted && WES_accepted)
+                {
+                    Toast.makeText(this, "READ and WRITE request accepted", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(this, "READ and WRITE request denied", Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M )
+                    {
+
+                    }
+                }
+            }
+        }
+    }
 }
