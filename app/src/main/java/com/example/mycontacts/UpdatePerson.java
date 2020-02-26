@@ -183,6 +183,7 @@ public class UpdatePerson extends AppCompatActivity {
         contacts.setCategory(category);
         if (imageBytes != null)
         {
+            imageBytes = ImageUtility.getImageBytes(ImageUtility.getResizedBitmap(ImageUtility.getImage(imageBytes), 200));
             contacts.setImagePath(imageBytes);
         }
 
@@ -201,8 +202,10 @@ public class UpdatePerson extends AppCompatActivity {
                 break;
             case R.id.activity_update_family:
                 checked = "Family";
+                break;
             case R.id.activity_update_classmate:
                 checked = "Classmate";
+                break;
         }
 
         return checked;
