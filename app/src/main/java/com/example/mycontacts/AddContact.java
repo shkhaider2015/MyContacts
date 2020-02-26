@@ -128,9 +128,10 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
                 byte[] inputData = null;
                 if (selectedPic != null)
                 {
-                    try {
+                    try
+                    {
                         InputStream iStream = getContentResolver().openInputStream(selectedPic);
-                        inputData = ImageUtility.getBytes(iStream);
+                        inputData = ImageUtility.getImageBytes(ImageUtility.getResizedBitmap(ImageUtility.getImage(ImageUtility.getBytes(iStream)), 200));
                     }catch (IOException e)
                     {
                         Log.e(TAG, "saveInfo: ", e);
@@ -140,7 +141,10 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
                 Contacts contacts = new Contacts();
 
-                contacts.setImagePath(inputData);
+                if (inputData != null)
+                {
+                    contacts.setImagePath(inputData);
+                }
                 contacts.setFullName(fullname);
                 contacts.setPhoneNumber(phonenumber);
                 contacts.setEmail(email);
@@ -229,6 +233,8 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
                 if (selectedPic != null)
                     imageView.setImageURI(selectedPic);
 
+
+
             }
             else
             {
@@ -279,4 +285,6 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
             }
         }
     }
+
+
 }

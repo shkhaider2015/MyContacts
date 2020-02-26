@@ -181,7 +181,11 @@ public class UpdatePerson extends AppCompatActivity {
         contacts.setPhoneNumber(number);
         contacts.setEmail(email);
         contacts.setCategory(category);
-        contacts.setImagePath(imageBytes);
+        if (imageBytes != null)
+        {
+            contacts.setImagePath(imageBytes);
+        }
+
 
         UpdateInformation updateInformation = new UpdateInformation();
         updateInformation.execute();
