@@ -100,9 +100,10 @@ public class UpdatePerson extends AppCompatActivity {
     private void loadInfo(Contacts contacts)
     {
         imageBytes = contacts.getImagePath();
-        Bitmap bitmap = ImageUtility.getImage(imageBytes);
-        if (bitmap != null)
+        Bitmap bitmap = null;
+        if (imageBytes != null)
         {
+            bitmap = ImageUtility.getImage(imageBytes);
             imageView.setImageBitmap(bitmap);
         }
         else

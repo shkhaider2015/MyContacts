@@ -69,10 +69,12 @@ public class DisplayPerson extends AppCompatActivity {
 
     private void loadInformation(Contacts contacts)
     {
-        Bitmap bitmap = ImageUtility.getImage(contacts.getImagePath());
+        byte[] imgUri = contacts.getImagePath();
+        Bitmap bitmap =  null;
 
-        if (bitmap != null)
+        if (imgUri != null)
         {
+            bitmap = ImageUtility.getImage(imgUri);
             mImageView.setImageBitmap(bitmap);
         }
         else

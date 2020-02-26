@@ -88,7 +88,6 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
     }
     private void saveInfo()
     {
-        Contacts contactsObject = new Contacts();
 
         String fullname = mFullName.getText().toString().trim();
         String phonenumber = mPhoneNumber.getText().toString().trim();
@@ -141,7 +140,6 @@ public class AddContact extends AppCompatActivity implements View.OnClickListene
 
                 Contacts contacts = new Contacts();
 
-//                contacts.setImagePath(imagePath);
                 contacts.setImagePath(inputData);
                 contacts.setFullName(fullname);
                 contacts.setPhoneNumber(phonenumber);
